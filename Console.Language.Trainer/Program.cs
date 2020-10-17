@@ -22,6 +22,7 @@ namespace LanguageTeacher
 
             var userInput = Console.ReadLine().ToLower();
 
+           
             switch (userInput)
             {
                 case "-lists":
@@ -37,12 +38,14 @@ namespace LanguageTeacher
                     var filePath = Folder.GetFilePath(name);
                     var fs = File.Create(filePath);
                     fs.Close();
-                    AddWords(WordList.LoadList(name), languageArray);
+                    var wordlist = new WordList(name, languageArray);
+                    wordlist.Save();
+                    AddWords(name, languageArray);
                     break;
                 case "-add":
                     Console.WriteLine("Write the name of the list you want to add files too");
                     name = Console.ReadLine().ToLower();
-                    AddWords(WordList.LoadList(name), WordList.LoadList(name).Languages);
+                    AddWords(name, WordList.LoadList(name).Languages);
                     break;
                 case "-remove":
                     read = Console.ReadLine().ToLower().Split(' ');
@@ -97,7 +100,7 @@ namespace LanguageTeacher
                     name = Console.ReadLine().ToLower();
                     var rnd = new Random();
                     languageArray = WordList.LoadList(name).Languages;
-                    var wordlist = WordList.LoadList(name);
+                    wordlist = WordList.LoadList(name);
                     Word practiceWord = wordlist.GetWordToPractice();
                     var enterNotPressed = true;
                     while (enterNotPressed)
@@ -123,11 +126,13 @@ namespace LanguageTeacher
             }
         }
 
-        private static void AddWords(WordList wordList, string[] languages)
+        private static void AddWords(string name, string[] languages)
         {
             Console.WriteLine("To stop adding words, input an empty string");
+            var wordList = WordList.LoadList(name);
             var enterNotPressed = true;
             while (enterNotPressed)
+
             {
                 var words = new string[languages.Length];
                 for (var i = 0; i < languages.Length; i++)

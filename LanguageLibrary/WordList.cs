@@ -12,7 +12,7 @@ namespace LanguageLibrary
 
         private readonly List<Word> _words = new List<Word>();
 
-        private WordList(string name, params string[] languages)
+        public WordList(string name, params string[] languages)
         {
             Name = name.ToLower();
             Languages = languages;
@@ -36,14 +36,15 @@ namespace LanguageLibrary
                 var file = Folder.GetFilePath(name);
                 using var fs = File.Create(file);
                 fs.Close();
+                
             } 
+            
             using var sr = new StreamReader(Folder.GetFilePath(name));
             var line1 = sr.ReadLine();
             if (line1 == null) return null;
-             var languages = line1.Split(CharArray, StringSplitOptions.RemoveEmptyEntries);
-
-            var wordList = new WordList(name, languages);
-            var line="";
+           var languages = line1.Split(CharArray, StringSplitOptions.RemoveEmptyEntries);
+             var wordList = new WordList(name, languages);
+             var line="";
             while ((line = sr.ReadLine()) != null)
                 wordList.Add(line.Split(CharArray, StringSplitOptions.RemoveEmptyEntries));
             sr.Close();

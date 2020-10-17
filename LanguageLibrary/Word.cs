@@ -2,13 +2,13 @@
 {
     public class Word
     {
-        public Word(params string[] translations) // initaliserar Translations med data som skickas in i translations
+        public Word(params string[] translations) 
         {
             Translations = translations;
         }
 
         public Word(int fromLanguage, int toLanguage,
-            params string[] translations) //som ovan fast sätter även fromLanguage och ToLanguage
+            params string[] translations) 
         {
             Translations = translations;
             FromLanguage = fromLanguage;
@@ -18,8 +18,7 @@
         public string[] Translations { get; }
 
 
-        public int
-            FromLanguage { get; } //med from och to ANGER man för övningarna från/till vilket språk som ska översättas
+        public int FromLanguage { get; } 
 
         public int ToLanguage { get; }
     }

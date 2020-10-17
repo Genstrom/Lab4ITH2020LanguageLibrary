@@ -7,7 +7,7 @@ namespace LanguageLibrary
     {
         private static string PathFolder => Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
 
-        public static string SpecificFolder => Path.Combine(PathFolder, "Language Folder");
+        public static string SpecificFolder => Path.Combine(PathFolder, "LanguageLibrary");
 
         public static void CreateFolder()
         {

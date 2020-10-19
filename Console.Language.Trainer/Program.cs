@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using LanguageLibrary;
 
@@ -9,32 +8,29 @@ namespace LanguageTeacher
     {
         private static void Main(string[] args)
         {
-            Folder.CreateFolder();
+            
             Console.WriteLine("Use any of the following parameters: ");
             Console.WriteLine("-lists");
             Console.WriteLine("-new <list name> <language 1> <language 2> .. <language n>");
             Console.WriteLine("-add <list name>");
             Console.WriteLine("-remove <list name > <language> <word1> <word2>... ");
-            Console.WriteLine("-words");
-            Console.WriteLine("-count");
-            Console.WriteLine("-practice");
+            Console.WriteLine("-words <listname> <sortByLanguage>");
+            Console.WriteLine("-count <listname>");
+            Console.WriteLine("-practice <listname>");
 
+            var inputArray = argsToLower(args);
 
-            var userInput = Console.ReadLine().ToLower();
-
-           
-            switch (userInput)
+            switch (inputArray[0])
             {
                 case "-lists":
                     var files = WordList.GetLists();
                     foreach (var file in files) Console.WriteLine(file);
                     break;
                 case "-new":
-                    Console.WriteLine("Write the name of the list and the languages used in the list");
-                    var read = Console.ReadLine().ToLower().Split(' ');
-                    var name = read[0];
-                    var languageArray = new string[read.Length - 1];
-                    for (var i = 1; i < read.Length; i++) languageArray[i - 1] = read[i];
+
+                    var name = inputArray[1];
+                    var languageArray = new string[inputArray.Length - 1];
+                    for (var i = 1; i < inputArray.Length; i++) languageArray[i - 1] = inputArray[i];
                     var filePath = Folder.GetFilePath(name);
                     var fs = File.Create(filePath);
                     fs.Close();
@@ -42,83 +38,89 @@ namespace LanguageTeacher
                     wordlist.Save();
                     AddWords(name, languageArray);
                     break;
-                case "-add":
-                    Console.WriteLine("Write the name of the list you want to add files too");
-                    name = Console.ReadLine().ToLower();
+                case "-add":                  
+                    name = inputArray[1];
                     AddWords(name, WordList.LoadList(name).Languages);
                     break;
                 case "-remove":
-                    read = Console.ReadLine().ToLower().Split(' ');
                     var language = 0;
-                    WordList.LoadList(read[0]);
-                    for (var i = 0; i < WordList.LoadList(read[0]).Languages.Length; i++)
+                    WordList.LoadList(inputArray[1]);
+                    for (var i = 0; i < WordList.LoadList(inputArray[1]).Languages.Length; i++)
                     {
-                        if (read[1] != WordList.LoadList(read[0]).Languages[i]) continue;
+                        if (inputArray[2] != WordList.LoadList(inputArray[1]).Languages[i]) continue;
                         language = i;
-                        WordList.LoadList(read[0]).Remove(language, read[2]);
+                    }
+                    for (var i = 3; i < inputArray.Length; i++)
+                    {
+
+                        WordList.LoadList(inputArray[1]).Remove(language, inputArray[i]);
 
                     }
-
+                    Console.ReadLine();
 
 
                     break;
                 case "-words":
-                    var langugae = 0;
-                    Console.WriteLine("Write the name of the list you want to print.");
-                    Console.WriteLine(
-                        "If you want to sort the words by a certain language please write the language after the name");
-                    read = Console.ReadLine().ToLower().Split(' ');
                     var sortBy = 0;
-
-                    languageArray = WordList.LoadList(read[0]).Languages;
-
-                    foreach (var languages in languageArray)
+                    languageArray = WordList.LoadList(inputArray[1]).Languages;
+                    for (int i = 0; i < languageArray.Length; i++)
                     {
-                        Console.Write(languages.PadLeft(20).ToUpper());
+                        if (inputArray.Length > 1 && inputArray[2] == languageArray[i])
+                        {
+                            sortBy = i;
+                        }
                     }
 
+                    foreach (var languages in languageArray) Console.Write(languages.PadLeft(20).ToUpper());
+
                     Console.WriteLine();
-                    WordList.LoadList(read[0]).List(sortBy, x =>
+                    WordList.LoadList(inputArray[1]).List(sortBy, x =>
                     {
-                        foreach (var t in x)
-                        {
-                            Console.Write(t.PadLeft(20));
-                        }
+                        foreach (var t in x) Console.Write(t.PadLeft(20));
 
                         Console.WriteLine();
                     });
 
 
-
                     break;
                 case "-count":
-                    Console.WriteLine("Write the name of the list you want the count of words from");
-                    name = Console.ReadLine().ToLower();
-                    Console.WriteLine(WordList.LoadList(name).Count());
+                    name = inputArray[1];
+                    Console.WriteLine($"There are {WordList.LoadList(name).Count()} words in the list");
                     break;
                 case "-practice":
-                    name = Console.ReadLine().ToLower();
+                    name = inputArray[1];
                     var rnd = new Random();
                     languageArray = WordList.LoadList(name).Languages;
                     wordlist = WordList.LoadList(name);
-                    Word practiceWord = wordlist.GetWordToPractice();
                     var enterNotPressed = true;
+                    var points = 0;
                     while (enterNotPressed)
                     {
+                        var practiceWord = wordlist.GetWordToPractice();
                         Console.WriteLine(
                             $"Here is the {languageArray[practiceWord.FromLanguage]} word {practiceWord.Translations[practiceWord.FromLanguage]}");
                         Console.WriteLine($"Do you know the {languageArray[practiceWord.ToLanguage]} translation?");
                         var input = Console.ReadLine().ToLower();
                         if (input == practiceWord.Translations[practiceWord.ToLanguage].ToLower())
                         {
-                            Console.WriteLine("Wow very impressive really");
+                            Console.WriteLine("Good job that is the correct answer");
+                            points++;
                         }
 
+
+                        else if (!string.IsNullOrWhiteSpace(input))
+                        {
+                            Console.WriteLine("Sorry that is not the correct answer");
+                        }
 
                         if (string.IsNullOrWhiteSpace(input))
                         {
+                            Console.WriteLine($"You got {points} right answers");
                             break;
+
                         }
+
+
 
                     }
 
@@ -154,5 +156,21 @@ namespace LanguageTeacher
                 if (enterNotPressed) wordList.Add(words);
             }
         }
+
+        private static string[] argsToLower (string[] args)
+        {
+            var userInput = new string[args.Length];
+            for (int i = 0; i < args.Length; i++)
+            {
+                userInput[i] = args[i].ToLower();
+            }
+
+
+            return userInput;
+                
+
+          }
+
+
     }
 }

@@ -116,13 +116,8 @@ namespace LanguageTrainerWinForms
 
         private void AddButton_Click(object sender, EventArgs e)
         {
-            var currentRow = TranslationGrid.SelectedRows[0].Index;
-
-            if (currentRow < TranslationGrid.RowCount)
-            {
-                TranslationGrid.Rows.Add("");
-                TranslationGrid.Rows[++currentRow].Selected = true;
-            }
+            TranslationGrid.Rows.Add("");
+           
         }
 
         private void RemoveButton_Click(object sender, EventArgs e)

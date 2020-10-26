@@ -26,7 +26,7 @@ namespace LanguageTrainerWinForms
         
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (listBox1.SelectedItem != null)
+            if (listBox1.SelectedItem != null&& WordList.LoadList(listBox1.SelectedItem.ToString())!= null)
             {
                 
                 TranslationGrid.Show();
@@ -41,20 +41,30 @@ namespace LanguageTrainerWinForms
 
                 InformationBox.Hide();
                 var name = listBox1.SelectedItem.ToString();
-                var mainform = new MainForm(name);
-                var languageArray = WordList.LoadList(name).Languages;
-                var sortBy = 0;
+                if (WordList.LoadList(name)!= null)
+                {
+                    var languageArray = WordList.LoadList(name).Languages;
+                    var sortBy = 0;
 
 
-                CountLabel.Text = $"There are {WordList.LoadList(name).Count()} words in the list";
-                TranslationGrid.Rows.Clear();
-                TranslationGrid.Columns.Clear();
-                TranslationGrid.Refresh();
-                foreach (var languages in languageArray)
-                    TranslationGrid.Columns.Add("newColumnName", languages.ToUpper());
-                TranslationGrid.Rows.Clear();
+                    CountLabel.Text = $"There are {WordList.LoadList(name).Count()} words in the list";
+                    TranslationGrid.Rows.Clear();
+                    TranslationGrid.Columns.Clear();
+                    TranslationGrid.Refresh();
+                    foreach (var languages in languageArray)
+                        TranslationGrid.Columns.Add("newColumnName", languages.ToUpper());
+                    TranslationGrid.Rows.Clear();
 
-                WordList.LoadList(name).List(sortBy, x => { TranslationGrid.Rows.Add(x); });
+                    WordList.LoadList(name).List(sortBy, x => { TranslationGrid.Rows.Add(x); });
+                    
+                }
+                
+            }
+            else
+            {
+                TranslationGrid.Hide();
+                InformationBox.Show();
+                InformationBox.Text = "this is not a valid list";
             }
         }
 
@@ -71,7 +81,15 @@ namespace LanguageTrainerWinForms
             ListLabel.Show();
             listBox1.Items.Clear();
             var vs = WordList.GetLists();
-            foreach (var v in vs) listBox1.Items.Add(v);
+
+            foreach (var v in vs)
+            {
+                if (WordList.LoadList(v) != null)
+                {
+                    listBox1.Items.Add(v);
+                }
+                
+            }
         }
 
         private void Save()

@@ -235,6 +235,13 @@ namespace LanguageTrainerWinForms
             }
             else
             {
+                var caption = "Wrong Answer";
+                var message = $"You answered wrong. Your answer was {answer} and the correct answer was {WordForPractice.Translations[WordForPractice.ToLanguage].ToLower()} ";
+                var buttons = MessageBoxButtons.OK;
+                DialogResult result;
+                result = MessageBox.Show(message, caption, buttons);
+
+
                 Tries++;
                 Fails++;
             }

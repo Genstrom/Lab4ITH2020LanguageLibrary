@@ -32,6 +32,7 @@ namespace LanguageLibrary
         public static WordList LoadList(string name)
         {
             Folder.CreateFolder();
+
             if (!File.Exists(Folder.GetFilePath(name.ToLower())))
             {
                 var file = Folder.GetFilePath(name);
@@ -58,7 +59,9 @@ namespace LanguageLibrary
             var file = Folder.GetFilePath(Name);
             using var fs = File.Create(file);
             fs.Close();
-            foreach (var t in Languages) File.AppendAllText(file, $"{t};");
+            foreach (var t in Languages)
+                if (!string.IsNullOrWhiteSpace(t))
+                    File.AppendAllText(file, $"{t};");
             foreach (var t in _words)
             {
                 {
@@ -71,7 +74,6 @@ namespace LanguageLibrary
         public void Add(params string[] translations1)
         {
             if (translations1.Length != Languages.Length) throw new ArgumentException();
-
             _words.Add(new Word(translations1));
         }
 
@@ -107,14 +109,10 @@ namespace LanguageLibrary
             var randomWord = rnd.Next(_words.Count);
             var fromLanguage = rnd.Next(Languages.Length);
             var toLanguage = rnd.Next(Languages.Length);
-            while (toLanguage == fromLanguage)
-            {
-                toLanguage = rnd.Next(Languages.Length);
-            }
-            
-            var word = new Word(fromLanguage,
+            while (toLanguage == fromLanguage) toLanguage = rnd.Next(Languages.Length);
+
+            return new Word(fromLanguage,
                 toLanguage, _words[randomWord].Translations);
-            return word;
         }
     }
 }

@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             this.TranslationGrid = new System.Windows.Forms.DataGridView();
             this.CountLabel = new System.Windows.Forms.Label();
             this.listBox1 = new System.Windows.Forms.ListBox();
@@ -39,17 +39,6 @@
             this.InformationBox = new System.Windows.Forms.TextBox();
             this.SaveButton = new System.Windows.Forms.Button();
             this.RemoveButton = new System.Windows.Forms.Button();
-            this.PracticeBox = new System.Windows.Forms.RichTextBox();
-            this.ScoreLabel = new System.Windows.Forms.Label();
-            this.TriesLabel = new System.Windows.Forms.Label();
-            this.FailLabel = new System.Windows.Forms.Label();
-            this.PracticeWordBox = new System.Windows.Forms.TextBox();
-            this.TriesAmount = new System.Windows.Forms.Label();
-            this.ScoreAmount = new System.Windows.Forms.Label();
-            this.FailAmount = new System.Windows.Forms.Label();
-            this.SubmitButton = new System.Windows.Forms.Button();
-            this.StopButton = new System.Windows.Forms.Button();
-            this.AnswerBox = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.TranslationGrid)).BeginInit();
             this.SuspendLayout();
             // 
@@ -63,14 +52,14 @@
             this.TranslationGrid.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.TranslationGrid.BackgroundColor = System.Drawing.Color.DodgerBlue;
             this.TranslationGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.ActiveBorder;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.TranslationGrid.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle8.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.ActiveBorder;
+            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.TranslationGrid.DefaultCellStyle = dataGridViewCellStyle8;
             this.TranslationGrid.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
             this.TranslationGrid.GridColor = System.Drawing.Color.DodgerBlue;
             this.TranslationGrid.Location = new System.Drawing.Point(206, 55);
@@ -195,113 +184,6 @@
             this.RemoveButton.UseVisualStyleBackColor = true;
             this.RemoveButton.Click += new System.EventHandler(this.RemoveButton_Click);
             // 
-            // PracticeBox
-            // 
-            this.PracticeBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.PracticeBox.BackColor = System.Drawing.Color.RosyBrown;
-            this.PracticeBox.Location = new System.Drawing.Point(205, 54);
-            this.PracticeBox.Name = "PracticeBox";
-            this.PracticeBox.Size = new System.Drawing.Size(703, 306);
-            this.PracticeBox.TabIndex = 34;
-            this.PracticeBox.Text = "";
-            // 
-            // ScoreLabel
-            // 
-            this.ScoreLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ScoreLabel.Location = new System.Drawing.Point(760, 74);
-            this.ScoreLabel.Name = "ScoreLabel";
-            this.ScoreLabel.Size = new System.Drawing.Size(100, 23);
-            this.ScoreLabel.TabIndex = 35;
-            this.ScoreLabel.Text = "Total Score:";
-            this.ScoreLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // TriesLabel
-            // 
-            this.TriesLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.TriesLabel.Location = new System.Drawing.Point(760, 153);
-            this.TriesLabel.Name = "TriesLabel";
-            this.TriesLabel.Size = new System.Drawing.Size(100, 23);
-            this.TriesLabel.TabIndex = 36;
-            this.TriesLabel.Text = "Total Tries:";
-            this.TriesLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // FailLabel
-            // 
-            this.FailLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.FailLabel.Location = new System.Drawing.Point(760, 115);
-            this.FailLabel.Name = "FailLabel";
-            this.FailLabel.Size = new System.Drawing.Size(100, 23);
-            this.FailLabel.TabIndex = 37;
-            this.FailLabel.Text = "Total Fails:";
-            this.FailLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // PracticeWordBox
-            // 
-            this.PracticeWordBox.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.PracticeWordBox.BackColor = System.Drawing.Color.DodgerBlue;
-            this.PracticeWordBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.PracticeWordBox.Location = new System.Drawing.Point(450, 150);
-            this.PracticeWordBox.Multiline = true;
-            this.PracticeWordBox.Name = "PracticeWordBox";
-            this.PracticeWordBox.ReadOnly = true;
-            this.PracticeWordBox.Size = new System.Drawing.Size(201, 58);
-            this.PracticeWordBox.TabIndex = 38;
-            this.PracticeWordBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // TriesAmount
-            // 
-            this.TriesAmount.Location = new System.Drawing.Point(866, 153);
-            this.TriesAmount.Name = "TriesAmount";
-            this.TriesAmount.Size = new System.Drawing.Size(32, 23);
-            this.TriesAmount.TabIndex = 40;
-            this.TriesAmount.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // ScoreAmount
-            // 
-            this.ScoreAmount.Location = new System.Drawing.Point(866, 74);
-            this.ScoreAmount.Name = "ScoreAmount";
-            this.ScoreAmount.Size = new System.Drawing.Size(32, 23);
-            this.ScoreAmount.TabIndex = 41;
-            this.ScoreAmount.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // FailAmount
-            // 
-            this.FailAmount.Location = new System.Drawing.Point(866, 115);
-            this.FailAmount.Name = "FailAmount";
-            this.FailAmount.Size = new System.Drawing.Size(32, 23);
-            this.FailAmount.TabIndex = 42;
-            this.FailAmount.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // SubmitButton
-            // 
-            this.SubmitButton.Location = new System.Drawing.Point(561, 248);
-            this.SubmitButton.Name = "SubmitButton";
-            this.SubmitButton.Size = new System.Drawing.Size(90, 30);
-            this.SubmitButton.TabIndex = 43;
-            this.SubmitButton.Text = "Submit";
-            this.SubmitButton.UseVisualStyleBackColor = true;
-            this.SubmitButton.Click += new System.EventHandler(this.SubmitButton_Click_1);
-            // 
-            // StopButton
-            // 
-            this.StopButton.Location = new System.Drawing.Point(450, 248);
-            this.StopButton.Name = "StopButton";
-            this.StopButton.Size = new System.Drawing.Size(90, 30);
-            this.StopButton.TabIndex = 44;
-            this.StopButton.Text = "Stop";
-            this.StopButton.UseVisualStyleBackColor = true;
-            this.StopButton.Click += new System.EventHandler(this.StopButton_Click);
-            // 
-            // AnswerBox
-            // 
-            this.AnswerBox.BackColor = System.Drawing.Color.DodgerBlue;
-            this.AnswerBox.Location = new System.Drawing.Point(450, 214);
-            this.AnswerBox.Name = "AnswerBox";
-            this.AnswerBox.Size = new System.Drawing.Size(201, 20);
-            this.AnswerBox.TabIndex = 45;
-            // 
             // MainForm
             // 
             this.AcceptButton = this.AddButton;
@@ -309,17 +191,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.DodgerBlue;
             this.ClientSize = new System.Drawing.Size(988, 457);
-            this.Controls.Add(this.AnswerBox);
-            this.Controls.Add(this.StopButton);
-            this.Controls.Add(this.SubmitButton);
-            this.Controls.Add(this.FailAmount);
-            this.Controls.Add(this.ScoreAmount);
-            this.Controls.Add(this.TriesAmount);
-            this.Controls.Add(this.PracticeWordBox);
-            this.Controls.Add(this.FailLabel);
-            this.Controls.Add(this.TriesLabel);
-            this.Controls.Add(this.ScoreLabel);
-            this.Controls.Add(this.PracticeBox);
             this.Controls.Add(this.RemoveButton);
             this.Controls.Add(this.SaveButton);
             this.Controls.Add(this.InformationBox);
@@ -341,24 +212,6 @@
             this.PerformLayout();
 
         }
-
-        private System.Windows.Forms.TextBox AnswerBox;
-
-        private System.Windows.Forms.TextBox PracticeWordBox;
-
-        private System.Windows.Forms.Button SubmitButton;
-
-        private System.Windows.Forms.Button StopButton;
-
-        private System.Windows.Forms.RichTextBox PracticeBox;
-
-        private System.Windows.Forms.Label FailAmount;
-        private System.Windows.Forms.Label FailLabel;
-        private System.Windows.Forms.Label ScoreAmount;
-        private System.Windows.Forms.Label TriesAmount;
-        private System.Windows.Forms.Label TriesLabel;
-
-        private System.Windows.Forms.Label ScoreLabel;
 
         #endregion
 

@@ -88,36 +88,53 @@ namespace LanguageTeacher
                         break;
                     case "-practice":
                         name = args[1];
-                        languageArray = WordList.LoadList(name).Languages;
-                        wordlist = WordList.LoadList(name);
-                        var enterNotPressed = true;
-                        var points = 0;
-                        var tries = 0;
-                        while (enterNotPressed)
+                        if (WordList.LoadList(name) != null)
                         {
-                            var practiceWord = wordlist.GetWordToPractice();
-                            Console.WriteLine(
-                                $"Here is the {languageArray[practiceWord.FromLanguage]} word {practiceWord.Translations[practiceWord.FromLanguage]}");
-                            Console.WriteLine($"Do you know the {languageArray[practiceWord.ToLanguage]} translation?");
-                            var input = Console.ReadLine().ToLower();
-                            if (input == practiceWord.Translations[practiceWord.ToLanguage].ToLower())
+                            languageArray = WordList.LoadList(name).Languages;
+                            wordlist = WordList.LoadList(name);
+                            if (wordlist.Count() != 0)
                             {
-                                Console.WriteLine("Good job that is the correct answer");
-                                points++;
-                                tries++;
+                                var enterNotPressed = true;
+                                var points = 0;
+                                var tries = 0;
+                                while (enterNotPressed)
+                                {
+                                    var practiceWord = wordlist.GetWordToPractice();
+                                    Console.WriteLine(
+                                        $"Here is the {languageArray[practiceWord.FromLanguage]} word {practiceWord.Translations[practiceWord.FromLanguage]}");
+                                    Console.WriteLine($"Do you know the {languageArray[practiceWord.ToLanguage]} translation?");
+                                    var input = Console.ReadLine().ToLower();
+                                    if (input == practiceWord.Translations[practiceWord.ToLanguage].ToLower())
+                                    {
+                                        Console.WriteLine("Good job that is the correct answer");
+                                        points++;
+                                        tries++;
+                                    }
+
+
+                                    else if (!string.IsNullOrWhiteSpace(input))
+                                    {
+                                        Console.WriteLine("Sorry that is not the correct answer");
+                                        tries++;
+                                    }
+
+                                    if (!string.IsNullOrWhiteSpace(input)) continue;
+                                    Console.WriteLine($"You got {points} right answers out of {tries}");
+                                    break;
+                                }
+                            }
+                            else
+                            {
+                                Console.WriteLine("The selected list is empty, you cant practice with an empty list");
                             }
 
 
-                            else if (!string.IsNullOrWhiteSpace(input))
-                            {
-                                Console.WriteLine("Sorry that is not the correct answer");
-                                tries++;
-                            }
-
-                            if (!string.IsNullOrWhiteSpace(input)) continue;
-                            Console.WriteLine($"You got {points} right answers out of {tries}");
-                            break;
                         }
+                        else
+                        {
+                            Console.WriteLine("That is not a valid list on your computer.");
+                        }
+
 
                         break;
                 }

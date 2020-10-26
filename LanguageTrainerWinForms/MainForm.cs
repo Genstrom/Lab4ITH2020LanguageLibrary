@@ -6,22 +6,29 @@ namespace LanguageTrainerWinForms
 {
     public partial class MainForm : Form
     {
+        public MainForm(string name)
+        {
+            InitializeComponent();
+            FileName = name;
+        }
         public MainForm()
         {
             InitializeComponent();
+          
         }
 
         private int Score { get; set; }
         private Word WordForPractice { get; set; }
         private int Tries { get; set; }
         private int Fails { get; set; }
-        private string FileName => listBox1.SelectedItem.ToString();
+        private string FileName { get; set; }
 
-
+        
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (listBox1.SelectedItem != null)
             {
+                
                 TranslationGrid.Show();
                 AddButton.Show();
                 NewListButton.Show();
@@ -34,8 +41,10 @@ namespace LanguageTrainerWinForms
 
                 InformationBox.Hide();
                 var name = listBox1.SelectedItem.ToString();
+                var mainform = new MainForm(name);
                 var languageArray = WordList.LoadList(name).Languages;
                 var sortBy = 0;
+
 
                 CountLabel.Text = $"There are {WordList.LoadList(name).Count()} words in the list";
                 TranslationGrid.Rows.Clear();
@@ -58,6 +67,7 @@ namespace LanguageTrainerWinForms
         private void MainForm_Activated(object sender, EventArgs e)
         {
             listBox1.Show();
+            listBox1.Enabled = true;
             ListLabel.Show();
             listBox1.Items.Clear();
             var vs = WordList.GetLists();
@@ -66,8 +76,9 @@ namespace LanguageTrainerWinForms
 
         private void Save()
         {
-            if (FileName != null)
+            if (listBox1.SelectedItem.ToString() != null)
             {
+                FileName = listBox1.SelectedItem.ToString();
                 var modifiedList = new WordList(FileName, WordList.LoadList(FileName).Languages);
                 var correctLength = true;
                 for (var i = 0; i < TranslationGrid.Rows.Count; i++)
@@ -144,7 +155,8 @@ namespace LanguageTrainerWinForms
             AddButton.Enabled = false;
             SaveButton.Enabled = false;
             RemoveButton.Enabled = false;
-            PracticeHider();
+           
+          
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
@@ -161,106 +173,36 @@ namespace LanguageTrainerWinForms
             }
         }
 
-        private void PracticeHider()
-        {
-            PracticeBox.Hide();
-            TriesAmount.Hide();
-            TriesLabel.Hide();
-            SubmitButton.Hide();
-            ScoreAmount.Hide();
-            ScoreLabel.Hide();
-            FailAmount.Hide();
-            FailLabel.Hide();
-            PracticeWordBox.Hide();
-            AnswerBox.Hide();
-            StopButton.Hide();
-        }
 
         private void PracticeButton_Click(object sender, EventArgs e)
         {
-            listBox1.Enabled = false;
-            TranslationGrid.Hide();
-            AddButton.Hide();
-            SaveButton.Hide();
-            NewListButton.Hide();
-            RemoveButton.Hide();
-            PracticeButton.Hide();
-            if (listBox1.SelectedItem == null)
+            if(listBox1.SelectedItem != null)
             {
-                TranslationGrid.Hide();
-                InformationBox.Text = "You need to select a list ";
-                listBox1.Enabled = true;
-                InformationBox.Show();
-            }
-            else
-            {
-                PracticeBox.Show();
-                TriesAmount.Show();
-                TriesLabel.Show();
-                SubmitButton.Show();
-                ScoreAmount.Show();
-                ScoreLabel.Show();
-                FailAmount.Show();
-                FailLabel.Show();
-                PracticeWordBox.Show();
-                AnswerBox.Show();
-                StopButton.Show();
 
-                var languageArray = WordList.LoadList(FileName).Languages;
-                var wordForPractice = PracticeGenerator();
-                PracticeWordBox.Text =
-                    $"Here is the {languageArray[wordForPractice.FromLanguage]} word {wordForPractice.Translations[wordForPractice.FromLanguage]}\r\n Please submit the {languageArray[wordForPractice.ToLanguage]} translation";
-                ScoreAmount.Text = Score.ToString();
-                FailAmount.Text = Fails.ToString();
-                TriesAmount.Text = Tries.ToString();
+                listBox1.Enabled = false;
+                var name = listBox1.SelectedItem.ToString();
+                if(WordList.LoadList(name).Count() != 0)
+                {
+                    var practice = new PracticeForm(name);
+                    practice.TopMost = true;
+                    practice.Show();
+
+                }
+                else
+                {
+                    var caption = "Error Detected";
+                    var message =
+                        "The selected list is empty, you cant practice with an empty list";
+                    var buttons = MessageBoxButtons.OK;
+                    DialogResult result;
+                    result = MessageBox.Show(message, caption, buttons);
+                }
+                
+
             }
+            
+            
         }
 
-        private Word PracticeGenerator()
-        {
-            WordForPractice = WordList.LoadList(FileName).GetWordToPractice();
-            return WordForPractice;
-        }
-
-        private void SubmitButton_Click_1(object sender, EventArgs e)
-        {
-            var languageArray = WordList.LoadList(FileName).Languages;
-            var answer = AnswerBox.Text.ToLower();
-            AnswerBox.Text = string.Empty;
-
-            if (answer == WordForPractice.Translations[WordForPractice.ToLanguage].ToLower())
-            {
-                Score++;
-                Tries++;
-            }
-            else
-            {
-                var caption = "Wrong Answer";
-                var message = $"You answered wrong. Your answer was {answer} and the correct answer was {WordForPractice.Translations[WordForPractice.ToLanguage].ToLower()} ";
-                var buttons = MessageBoxButtons.OK;
-                DialogResult result;
-                result = MessageBox.Show(message, caption, buttons);
-
-
-                Tries++;
-                Fails++;
-            }
-
-            PracticeGenerator();
-            PracticeWordBox.Text =
-                $"Here is the {languageArray[WordForPractice.FromLanguage]} word {WordForPractice.Translations[WordForPractice.FromLanguage]}\r\n Please submit the {languageArray[WordForPractice.ToLanguage]} translation";
-            ScoreAmount.Text = Score.ToString();
-            FailAmount.Text = Fails.ToString();
-            TriesAmount.Text = Tries.ToString();
-        }
-
-        private void StopButton_Click(object sender, EventArgs e)
-        {
-            PracticeHider();
-            listBox1.Enabled = true;
-            InformationBox.Show();
-            InformationBox.Text =
-                $"Out of your {Tries} tries you managed to get {Score} correct answers. You failed on {Fails} words";
-        }
     }
 }

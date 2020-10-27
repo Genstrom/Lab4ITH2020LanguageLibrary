@@ -61,7 +61,7 @@
             // 
             // ScoreLabel
             // 
-            this.ScoreLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ScoreLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
             this.ScoreLabel.Location = new System.Drawing.Point(667, 34);
             this.ScoreLabel.Name = "ScoreLabel";
             this.ScoreLabel.Size = new System.Drawing.Size(85, 23);
@@ -71,7 +71,7 @@
             // 
             // FailLabel
             // 
-            this.FailLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.FailLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
             this.FailLabel.Location = new System.Drawing.Point(660, 57);
             this.FailLabel.Name = "FailLabel";
             this.FailLabel.Size = new System.Drawing.Size(92, 23);
@@ -81,7 +81,7 @@
             // 
             // TriesLabel
             // 
-            this.TriesLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TriesLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte) (0)));
             this.TriesLabel.Location = new System.Drawing.Point(663, 80);
             this.TriesLabel.Name = "TriesLabel";
             this.TriesLabel.Size = new System.Drawing.Size(89, 23);
@@ -158,13 +158,13 @@
             this.Controls.Add(this.ScoreLabel);
             this.Controls.Add(this.PracticeWordBox);
             this.Controls.Add(this.AnswerBox);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "PracticeForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "PracticeForm";
             this.Load += new System.EventHandler(this.PracticeForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
 
         #endregion

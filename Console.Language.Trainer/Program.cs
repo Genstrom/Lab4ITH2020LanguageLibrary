@@ -72,10 +72,13 @@ namespace LanguageTeacher
                     case "-words":
                         var sortBy = 0;
                         languageArray = WordList.LoadList(args[1]).Languages;
-                        for (var i = 0; i < languageArray.Length; i++)
-                            if (args.Length > 1 && args[2] == languageArray[i])
-                                sortBy = i;
-
+                        if (args.Length > 2)
+                        {
+                            for (var i = 0; i < languageArray.Length; i++)
+                                if (args.Length > 1 && args[2] == languageArray[i])
+                                    sortBy = i;
+                        }
+                        
                         foreach (var languages in languageArray) Console.Write(languages.PadLeft(20).ToUpper());
 
                         Console.WriteLine();
@@ -85,6 +88,7 @@ namespace LanguageTeacher
 
                             Console.WriteLine();
                         });
+
                         break;
                     case "-count":
                         name = args[1];

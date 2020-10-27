@@ -37,12 +37,12 @@ namespace LanguageTrainerWinForms
                 SaveButton.Enabled = true;
                 RemoveButton.Enabled = true;
                 InformationBox.Hide();
-                var name = listBox1.SelectedItem.ToString();
-                if (WordList.LoadList(name) != null)
+                FileName = listBox1.SelectedItem.ToString();
+                if (WordList.LoadList(FileName) != null)
                 {
-                    var languageArray = WordList.LoadList(name).Languages;
+                    var languageArray = WordList.LoadList(FileName).Languages;
                     var sortBy = 0;
-                    CountLabel.Text = $"There are {WordList.LoadList(name).Count()} words in the list";
+                    CountLabel.Text = $"There are {WordList.LoadList(FileName).Count()} words in the list";
                     TranslationGrid.Rows.Clear();
                     TranslationGrid.Columns.Clear();
                     TranslationGrid.Refresh();
@@ -50,7 +50,7 @@ namespace LanguageTrainerWinForms
                         TranslationGrid.Columns.Add("newColumnName", languages.ToUpper());
                     TranslationGrid.Rows.Clear();
 
-                    WordList.LoadList(name).List(sortBy, x => { TranslationGrid.Rows.Add(x); });
+                    WordList.LoadList(FileName).List(sortBy, x => { TranslationGrid.Rows.Add(x); });
                 }
             }
             else
@@ -76,7 +76,7 @@ namespace LanguageTrainerWinForms
             var vs = WordList.GetLists();
 
             foreach (var v in vs)
-                if (WordList.LoadList(v) != null && WordList.LoadList(v).Languages.Length > 2)
+                if (WordList.LoadList(v) != null && WordList.LoadList(v).Languages.Length > 1)
                     listBox1.Items.Add(v);
         }
 
@@ -119,6 +119,7 @@ namespace LanguageTrainerWinForms
                     {
                         modifiedList.Add(words);
                         modifiedList.Save();
+                        CountLabel.Text = $"There are {WordList.LoadList(FileName).Count()} words in the list";
                     }
                 }
             }
@@ -140,6 +141,8 @@ namespace LanguageTrainerWinForms
                 var word = selectedRows[0].Cells[0].Value.ToString();
                 WordList.LoadList(FileName).Remove(0, word);
             }
+
+            CountLabel.Text = $"There are {WordList.LoadList(FileName).Count()} words in the list";
         }
 
         private void NewListButton_Click(object sender, EventArgs e)

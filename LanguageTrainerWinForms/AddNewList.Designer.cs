@@ -106,6 +106,7 @@
             this.Name = "AddNewList";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "AddNewList";
+            this.TopMost = true;
             this.Load += new System.EventHandler(this.AddNewList_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

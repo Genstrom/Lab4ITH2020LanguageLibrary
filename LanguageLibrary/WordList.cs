@@ -83,9 +83,14 @@ namespace LanguageLibrary
             if (_words.Any(i => i.Translations[translations] == word))
                 removeAtIndex = _words.IndexOf(_words.First(i => i.Translations[translations] == word));
 
-            _words.RemoveAt(removeAtIndex);
-            Save();
-            return true;
+            if (_words.Count != 0)
+            {
+                _words.RemoveAt(removeAtIndex);
+                Save();
+                return true;
+            }
+
+            return false;
         }
 
         public int Count()

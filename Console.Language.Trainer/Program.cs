@@ -25,7 +25,13 @@ namespace LanguageTeacher
                 {
                     case "-lists":
                         var files = WordList.GetLists();
-                        foreach (var file in files) Console.WriteLine(file);
+                        foreach (var file in files)
+                        {
+                            if (WordList.LoadList(file) != null)
+                           {
+                                Console.WriteLine(file);
+                            }
+                        }
                         break;
                     case "-new":
 
@@ -56,12 +62,16 @@ namespace LanguageTeacher
                             if (args[2] != WordList.LoadList(args[1]).Languages[i]) continue;
                             language = i;
                         }
-
                         for (var i = 3; i < args.Length; i++)
                         {
                             WordList.LoadList(args[1]).Remove(language, args[i]);
+                            if (WordList.LoadList(args[1]).Remove(language, args[i]))
                             Console.WriteLine(
                                 $"The {WordList.LoadList(args[1]).Languages[language]} word {args[i]} was removed");
+                            else
+                            {
+                                Console.WriteLine("No Word was removed");
+                            }
                         }
 
                         break;

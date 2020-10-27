@@ -14,21 +14,17 @@ namespace LanguageTrainerWinForms
         public MainForm()
         {
             InitializeComponent();
-          
         }
-
         private int Score { get; set; }
         private Word WordForPractice { get; set; }
         private int Tries { get; set; }
-        private int Fails { get; set; }
+        private int Fails { get; set; } 
         private string FileName { get; set; }
-
         
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (listBox1.SelectedItem != null&& WordList.LoadList(listBox1.SelectedItem.ToString())!= null)
             {
-                
                 TranslationGrid.Show();
                 AddButton.Show();
                 NewListButton.Show();
@@ -38,15 +34,12 @@ namespace LanguageTrainerWinForms
                 AddButton.Enabled = true;
                 SaveButton.Enabled = true;
                 RemoveButton.Enabled = true;
-
                 InformationBox.Hide();
                 var name = listBox1.SelectedItem.ToString();
                 if (WordList.LoadList(name)!= null)
                 {
                     var languageArray = WordList.LoadList(name).Languages;
                     var sortBy = 0;
-
-
                     CountLabel.Text = $"There are {WordList.LoadList(name).Count()} words in the list";
                     TranslationGrid.Rows.Clear();
                     TranslationGrid.Columns.Clear();
@@ -56,7 +49,6 @@ namespace LanguageTrainerWinForms
                     TranslationGrid.Rows.Clear();
 
                     WordList.LoadList(name).List(sortBy, x => { TranslationGrid.Rows.Add(x); });
-                    
                 }
                 
             }
@@ -84,11 +76,10 @@ namespace LanguageTrainerWinForms
 
             foreach (var v in vs)
             {
-                if (WordList.LoadList(v) != null)
+                if (WordList.LoadList(v) != null && WordList.LoadList(v).Languages.Length>2)
                 {
                     listBox1.Items.Add(v);
                 }
-                
             }
         }
 
@@ -99,12 +90,14 @@ namespace LanguageTrainerWinForms
                 FileName = listBox1.SelectedItem.ToString();
                 var modifiedList = new WordList(FileName, WordList.LoadList(FileName).Languages);
                 var correctLength = true;
+                
                 for (var i = 0; i < TranslationGrid.Rows.Count; i++)
                 {
                     if (correctLength == false) break;
 
                     var words = new string[modifiedList.Languages.Length];
                     for (var j = 0; j < words.Length; j++)
+                        
                         if (TranslationGrid.Rows[i].Cells[j].Value != null &&
                             !string.IsNullOrWhiteSpace(TranslationGrid.Rows[i].Cells[j].Value.ToString()))
                         {
@@ -112,13 +105,18 @@ namespace LanguageTrainerWinForms
                         }
                         else
                         {
+                            var emptySlots = TranslationGrid.Rows.Count - modifiedList.Count();
+                            for (int k = 0; k < emptySlots; k++)
+                            {
+                                TranslationGrid.Rows.RemoveAt(modifiedList.Count());
+                            }
+                            
                             var caption = "Error Detected in Input";
                             var message =
                                 "You did not add a word for every language. \nThe empty indexes will not be saved";
                             var buttons = MessageBoxButtons.OK;
                             DialogResult result;
                             result = MessageBox.Show(message, caption, buttons);
-                            TranslationGrid.Rows.RemoveAt(TranslationGrid.Rows.Count - 1);
                             correctLength = false;
                             break;
                         }
@@ -135,12 +133,23 @@ namespace LanguageTrainerWinForms
         private void AddButton_Click(object sender, EventArgs e)
         {
             TranslationGrid.Rows.Add("");
-           
         }
 
         private void RemoveButton_Click(object sender, EventArgs e)
         {
+            if (listBox1.SelectedItem!= null)
+            {
+                FileName = listBox1.SelectedItem.ToString();
+            }
+            
             foreach (DataGridViewRow item in TranslationGrid.SelectedRows) TranslationGrid.Rows.RemoveAt(item.Index);
+            if (TranslationGrid.SelectedRows.Count != 0)
+            {
+                var selectedRows = TranslationGrid.SelectedRows;
+                var word = selectedRows[0].Cells[0].Value.ToString();
+                WordList.LoadList(FileName).Remove(0, word);
+            }
+            
         }
 
         private void NewListButton_Click(object sender, EventArgs e)
@@ -168,8 +177,6 @@ namespace LanguageTrainerWinForms
             AddButton.Enabled = false;
             SaveButton.Enabled = false;
             RemoveButton.Enabled = false;
-           
-          
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)

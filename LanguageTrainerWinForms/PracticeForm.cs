@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using LanguageLibrary;
 
@@ -13,21 +6,23 @@ namespace LanguageTrainerWinForms
 {
     public partial class PracticeForm : Form
     {
-        public string ListName { get;}
-        private Word WordForPractice { get; set; }        
-        public int Score { get; set; }
-        public int Tries { get; set; }
-        public int Fails { get; set; }
-
         public PracticeForm(string listName)
         {
             InitializeComponent();
             ListName = listName;
         }
+
         public PracticeForm()
         {
-            InitializeComponent();         
-        }    
+            InitializeComponent();
+        }
+
+        public string ListName { get; }
+        private Word WordForPractice { get; set; }
+        public int Score { get; set; }
+        public int Tries { get; set; }
+        public int Fails { get; set; }
+
         private Word PracticeGenerator()
         {
             var _name = ListName;
@@ -40,8 +35,8 @@ namespace LanguageTrainerWinForms
             PracticeGenerator();
             var _name = ListName;
             var languageArray = WordList.LoadList(_name).Languages;
-            PracticeWordBox.Text =$"Here is the {languageArray[WordForPractice.FromLanguage]} word {WordForPractice.Translations[WordForPractice.FromLanguage]}\r\n Please submit the {languageArray[WordForPractice.ToLanguage]} translation";
-
+            PracticeWordBox.Text =
+                $"Here is the {languageArray[WordForPractice.FromLanguage]} word {WordForPractice.Translations[WordForPractice.FromLanguage]}\r\n Please submit the {languageArray[WordForPractice.ToLanguage]} translation";
         }
 
         private void SubmitButton_Click_1(object sender, EventArgs e)
@@ -59,7 +54,8 @@ namespace LanguageTrainerWinForms
             else
             {
                 var caption = "Wrong Answer";
-                var message = $"You answered wrong. Your answer was {answer} and the correct answer is {WordForPractice.Translations[WordForPractice.ToLanguage].ToLower()} ";
+                var message =
+                    $"You answered wrong. Your answer was {answer} and the correct answer is {WordForPractice.Translations[WordForPractice.ToLanguage].ToLower()} ";
                 var buttons = MessageBoxButtons.OK;
                 DialogResult result;
                 result = MessageBox.Show(message, caption, buttons);
@@ -78,12 +74,12 @@ namespace LanguageTrainerWinForms
         private void StopButton_Click_1(object sender, EventArgs e)
         {
             var caption = "End of Session";
-            var message = $"Out of your {Tries} tries you managed to get {Score} correct answers. You failed on {Fails} words";
+            var message =
+                $"Out of your {Tries} tries you managed to get {Score} correct answers. You failed on {Fails} words";
             var buttons = MessageBoxButtons.OK;
             DialogResult result;
             result = MessageBox.Show(message, caption, buttons);
-            this.Close();
-
+            Close();
         }
     }
 }

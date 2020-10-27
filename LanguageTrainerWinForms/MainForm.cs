@@ -11,19 +11,21 @@ namespace LanguageTrainerWinForms
             InitializeComponent();
             FileName = name;
         }
+
         public MainForm()
         {
             InitializeComponent();
         }
+
         private int Score { get; set; }
         private Word WordForPractice { get; set; }
         private int Tries { get; set; }
-        private int Fails { get; set; } 
+        private int Fails { get; set; }
         private string FileName { get; set; }
-        
+
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (listBox1.SelectedItem != null&& WordList.LoadList(listBox1.SelectedItem.ToString())!= null)
+            if (listBox1.SelectedItem != null && WordList.LoadList(listBox1.SelectedItem.ToString()) != null)
             {
                 TranslationGrid.Show();
                 AddButton.Show();
@@ -36,7 +38,7 @@ namespace LanguageTrainerWinForms
                 RemoveButton.Enabled = true;
                 InformationBox.Hide();
                 var name = listBox1.SelectedItem.ToString();
-                if (WordList.LoadList(name)!= null)
+                if (WordList.LoadList(name) != null)
                 {
                     var languageArray = WordList.LoadList(name).Languages;
                     var sortBy = 0;
@@ -50,7 +52,6 @@ namespace LanguageTrainerWinForms
 
                     WordList.LoadList(name).List(sortBy, x => { TranslationGrid.Rows.Add(x); });
                 }
-                
             }
             else
             {
@@ -75,12 +76,8 @@ namespace LanguageTrainerWinForms
             var vs = WordList.GetLists();
 
             foreach (var v in vs)
-            {
-                if (WordList.LoadList(v) != null && WordList.LoadList(v).Languages.Length>2)
-                {
+                if (WordList.LoadList(v) != null && WordList.LoadList(v).Languages.Length > 2)
                     listBox1.Items.Add(v);
-                }
-            }
         }
 
         private void Save()
@@ -90,14 +87,14 @@ namespace LanguageTrainerWinForms
                 FileName = listBox1.SelectedItem.ToString();
                 var modifiedList = new WordList(FileName, WordList.LoadList(FileName).Languages);
                 var correctLength = true;
-                
+
                 for (var i = 0; i < TranslationGrid.Rows.Count; i++)
                 {
                     if (correctLength == false) break;
 
                     var words = new string[modifiedList.Languages.Length];
                     for (var j = 0; j < words.Length; j++)
-                        
+
                         if (TranslationGrid.Rows[i].Cells[j].Value != null &&
                             !string.IsNullOrWhiteSpace(TranslationGrid.Rows[i].Cells[j].Value.ToString()))
                         {
@@ -106,11 +103,8 @@ namespace LanguageTrainerWinForms
                         else
                         {
                             var emptySlots = TranslationGrid.Rows.Count - modifiedList.Count();
-                            for (int k = 0; k < emptySlots; k++)
-                            {
-                                TranslationGrid.Rows.RemoveAt(modifiedList.Count());
-                            }
-                            
+                            for (var k = 0; k < emptySlots; k++) TranslationGrid.Rows.RemoveAt(modifiedList.Count());
+
                             var caption = "Error Detected in Input";
                             var message =
                                 "You did not add a word for every language. \nThe empty indexes will not be saved";
@@ -137,11 +131,8 @@ namespace LanguageTrainerWinForms
 
         private void RemoveButton_Click(object sender, EventArgs e)
         {
-            if (listBox1.SelectedItem!= null)
-            {
-                FileName = listBox1.SelectedItem.ToString();
-            }
-            
+            if (listBox1.SelectedItem != null) FileName = listBox1.SelectedItem.ToString();
+
             foreach (DataGridViewRow item in TranslationGrid.SelectedRows) TranslationGrid.Rows.RemoveAt(item.Index);
             if (TranslationGrid.SelectedRows.Count != 0)
             {
@@ -149,7 +140,6 @@ namespace LanguageTrainerWinForms
                 var word = selectedRows[0].Cells[0].Value.ToString();
                 WordList.LoadList(FileName).Remove(0, word);
             }
-            
         }
 
         private void NewListButton_Click(object sender, EventArgs e)
@@ -196,17 +186,15 @@ namespace LanguageTrainerWinForms
 
         private void PracticeButton_Click(object sender, EventArgs e)
         {
-            if(listBox1.SelectedItem != null)
+            if (listBox1.SelectedItem != null)
             {
-
                 listBox1.Enabled = false;
                 var name = listBox1.SelectedItem.ToString();
-                if(WordList.LoadList(name).Count() != 0)
+                if (WordList.LoadList(name).Count() != 0)
                 {
                     var practice = new PracticeForm(name);
                     practice.TopMost = true;
                     practice.Show();
-
                 }
                 else
                 {
@@ -217,12 +205,7 @@ namespace LanguageTrainerWinForms
                     DialogResult result;
                     result = MessageBox.Show(message, caption, buttons);
                 }
-                
-
             }
-            
-            
         }
-
     }
 }

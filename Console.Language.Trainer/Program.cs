@@ -26,12 +26,8 @@ namespace LanguageTeacher
                     case "-lists":
                         var files = WordList.GetLists();
                         foreach (var file in files)
-                        {
                             if (WordList.LoadList(file) != null)
-                           {
                                 Console.WriteLine(file);
-                            }
-                        }
                         break;
                     case "-new":
 
@@ -62,16 +58,14 @@ namespace LanguageTeacher
                             if (args[2] != WordList.LoadList(args[1]).Languages[i]) continue;
                             language = i;
                         }
+
                         for (var i = 3; i < args.Length; i++)
                         {
                             WordList.LoadList(args[1]).Remove(language, args[i]);
-                            if (WordList.LoadList(args[1]).Remove(language, args[i]))
                             Console.WriteLine(
-                                $"The {WordList.LoadList(args[1]).Languages[language]} word {args[i]} was removed");
-                            else
-                            {
-                                Console.WriteLine("No Word was removed");
-                            }
+                                WordList.LoadList(args[1]).Remove(language, args[i])
+                                    ? $"The {WordList.LoadList(args[1]).Languages[language]} word {args[i]} was removed"
+                                    : "No Word was removed");
                         }
 
                         break;
@@ -112,7 +106,8 @@ namespace LanguageTeacher
                                     var practiceWord = wordlist.GetWordToPractice();
                                     Console.WriteLine(
                                         $"Here is the {languageArray[practiceWord.FromLanguage]} word {practiceWord.Translations[practiceWord.FromLanguage]}");
-                                    Console.WriteLine($"Do you know the {languageArray[practiceWord.ToLanguage]} translation?");
+                                    Console.WriteLine(
+                                        $"Do you know the {languageArray[practiceWord.ToLanguage]} translation?");
                                     var input = Console.ReadLine().ToLower();
                                     if (input == practiceWord.Translations[practiceWord.ToLanguage].ToLower())
                                     {
@@ -137,8 +132,6 @@ namespace LanguageTeacher
                             {
                                 Console.WriteLine("The selected list is empty, you cant practice with an empty list");
                             }
-
-
                         }
                         else
                         {

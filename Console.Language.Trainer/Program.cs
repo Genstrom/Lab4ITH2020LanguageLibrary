@@ -34,7 +34,7 @@ namespace LanguageTeacher
                         var name = args[1];
                         if (args.Length < 4)
                         {
-                            Console.WriteLine($"You need to add at least 2 languages you added {args.Length - 2}");
+                            Console.WriteLine($"You need to add at least 2 languages you added {args.Length - 2} languages");
                             break;
                         }
 
@@ -43,8 +43,6 @@ namespace LanguageTeacher
                         var wordlist = new WordList(name, languageArray);
                         wordlist.Save();
                         AddWords(name, languageArray);
-
-
                         break;
                     case "-add":
                         name = args[1];
@@ -62,12 +60,12 @@ namespace LanguageTeacher
                         for (var i = 3; i < args.Length; i++)
                         {
                             WordList.LoadList(args[1]).Remove(language, args[i]);
-                            Console.WriteLine(
-                                WordList.LoadList(args[1]).Remove(language, args[i])
-                                    ? $"The {WordList.LoadList(args[1]).Languages[language]} word {args[i]} was removed"
-                                    : "No Word was removed");
+                            Console.WriteLine();
+                             var wasRemoved = WordList.LoadList(args[1]).Remove(language, args[i]);
+                            Console.WriteLine(wasRemoved
+                                ? $"The {WordList.LoadList(args[1]).Languages[language]} word {args[i]} was removed"
+                                : "No Word were removed");                            
                         }
-
                         break;
                     case "-words":
                         var sortBy = 0;
@@ -80,7 +78,6 @@ namespace LanguageTeacher
                         }
                         
                         foreach (var languages in languageArray) Console.Write(languages.PadLeft(20).ToUpper());
-
                         Console.WriteLine();
                         WordList.LoadList(args[1]).List(sortBy, x =>
                         {
@@ -119,8 +116,7 @@ namespace LanguageTeacher
                                         points++;
                                         tries++;
                                     }
-
-
+                                    
                                     else if (!string.IsNullOrWhiteSpace(input))
                                     {
                                         Console.WriteLine("Sorry that is not the correct answer");
@@ -141,8 +137,7 @@ namespace LanguageTeacher
                         {
                             Console.WriteLine("That is not a valid list on your computer.");
                         }
-
-
+                        
                         break;
                 }
             }
@@ -181,7 +176,6 @@ namespace LanguageTeacher
         {
             var userInput = args;
             for (var i = 0; i < args.Length; i++) userInput[i] = args[i].ToLower();
-
             return userInput;
         }
     }

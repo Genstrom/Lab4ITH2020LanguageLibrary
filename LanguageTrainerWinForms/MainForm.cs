@@ -91,7 +91,7 @@ namespace LanguageTrainerWinForms
                         if (TranslationGrid.Rows[i].Cells[j].Value != null &&
                             !string.IsNullOrWhiteSpace(TranslationGrid.Rows[i].Cells[j].Value.ToString()))
                         {
-                            words[j] = TranslationGrid.Rows[i].Cells[j].Value.ToString();
+                            words[j] = TranslationGrid.Rows[i].Cells[j].Value.ToString().ToLower();
                         }
                         else
                         {

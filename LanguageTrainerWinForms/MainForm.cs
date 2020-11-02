@@ -60,13 +60,6 @@ namespace LanguageTrainerWinForms
                 InformationBox.Text = "this is not a valid list";
             }
         }
-
-        private void newToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var newList = new AddNewList();
-            newList.Show();
-        }
-
         private void MainForm_Activated(object sender, EventArgs e)
         {
             listBox1.Show();
@@ -134,14 +127,15 @@ namespace LanguageTrainerWinForms
         {
             if (listBox1.SelectedItem != null) FileName = listBox1.SelectedItem.ToString();
 
-            foreach (DataGridViewRow item in TranslationGrid.SelectedRows) TranslationGrid.Rows.RemoveAt(item.Index);
+            
             if (TranslationGrid.SelectedRows.Count != 0)
             {
                 var selectedRows = TranslationGrid.SelectedRows;
                 var word = selectedRows[0].Cells[0].Value.ToString();
                 WordList.LoadList(FileName).Remove(0, word);
+                
             }
-
+            foreach (DataGridViewRow item in TranslationGrid.SelectedRows) TranslationGrid.Rows.RemoveAt(item.Index);
             CountLabel.Text = $"There are {WordList.LoadList(FileName).Count()} words in the list";
         }
 
@@ -207,6 +201,7 @@ namespace LanguageTrainerWinForms
                     var buttons = MessageBoxButtons.OK;
                     DialogResult result;
                     result = MessageBox.Show(message, caption, buttons);
+                    
                 }
             }
         }

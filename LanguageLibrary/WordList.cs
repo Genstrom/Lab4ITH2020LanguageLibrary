@@ -17,7 +17,7 @@ namespace LanguageLibrary
             Languages = languages;
         }
 
-        private string Name { get; }
+        public string Name { get; }
         public string[] Languages { get; }
 
         public static string[] GetLists()
@@ -79,9 +79,9 @@ namespace LanguageLibrary
 
         public bool Remove(int translations, string word)
         {
-            if (!_words.Any(i => i.Translations[translations] == word)) return false;
+            if (!_words.Any(i => i.Translations[translations] == word.ToLower())) return false;
             {
-                var removeAtIndex = _words.IndexOf(_words.First(i => i.Translations[translations] == word));          
+                var removeAtIndex = _words.IndexOf(_words.First(i => i.Translations[translations] == word.ToLower()));          
                 _words.RemoveAt(removeAtIndex);
                 Save();
                 return true;

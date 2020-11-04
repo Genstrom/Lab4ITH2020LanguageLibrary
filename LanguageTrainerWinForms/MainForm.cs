@@ -16,11 +16,6 @@ namespace LanguageTrainerWinForms
         {
             InitializeComponent();
         }
-
-        private int Score { get; set; }
-        private Word WordForPractice { get; set; }
-        private int Tries { get; set; }
-        private int Fails { get; set; }
         private string FileName { get; set; }
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -66,11 +61,12 @@ namespace LanguageTrainerWinForms
             listBox1.Enabled = true;
             ListLabel.Show();
             listBox1.Items.Clear();
-            var vs = WordList.GetLists();
+            TranslationGrid.Hide();
+            var listsOnComputer = WordList.GetLists();
 
-            foreach (var v in vs)
-                if (WordList.LoadList(v) != null && WordList.LoadList(v).Languages.Length > 1)
-                    listBox1.Items.Add(v);
+            foreach (var lists in listsOnComputer)
+                if (WordList.LoadList(lists) != null && WordList.LoadList(lists).Languages.Length > 1)
+                    listBox1.Items.Add(lists);
         }
 
         private void Save()
@@ -165,22 +161,7 @@ namespace LanguageTrainerWinForms
             SaveButton.Enabled = false;
             RemoveButton.Enabled = false;
         }
-
-        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (listBox1.SelectedItem == null)
-            {
-                TranslationGrid.Hide();
-                InformationBox.Text = "You need to select a list ";
-                InformationBox.Show();
-            }
-            else
-            {
-                Save();
-            }
-        }
-
-
+        
         private void PracticeButton_Click(object sender, EventArgs e)
         {
             if (listBox1.SelectedItem != null)
@@ -190,6 +171,7 @@ namespace LanguageTrainerWinForms
                 if (WordList.LoadList(name).Count() != 0)
                 {
                     var practice = new PracticeForm(name);
+                    TranslationGrid.Hide();
                     practice.TopMost = true;
                     practice.Show();
                 }

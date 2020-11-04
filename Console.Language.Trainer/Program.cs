@@ -21,7 +21,7 @@ namespace LanguageTeacher
 
             else
             {
-                switch (argsToLower(args)[0])
+                switch (ArgsToLower(args)[0])
                 {
                     case "-lists":
                         var files = WordList.GetLists();
@@ -172,7 +172,7 @@ namespace LanguageTeacher
             }
         }
 
-        private static string[] argsToLower(string[] args)
+        private static string[] ArgsToLower(string[] args)
         {
             var userInput = args;
             for (var i = 0; i < args.Length; i++) userInput[i] = args[i].ToLower();

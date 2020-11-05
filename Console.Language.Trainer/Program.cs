@@ -25,9 +25,17 @@ namespace LanguageTeacher
                 {
                     case "-lists":
                         var files = WordList.GetLists();
-                        foreach (var file in files)
-                            if (WordList.LoadList(file) != null)
-                                Console.WriteLine(file);
+                        if (files != null)
+                        {
+                            foreach (var file in files)
+                                if (WordList.LoadList(file) != null)
+                                    Console.WriteLine(file);
+                        }
+                        else
+                        {
+                            Console.WriteLine("you dont have any lists make a list and then you can see it.");
+                        }
+                        
                         break;
                     case "-new":
 
@@ -45,51 +53,84 @@ namespace LanguageTeacher
                         AddWords(name, languageArray);
                         break;
                     case "-add":
-                        name = args[1];
-                        AddWords(name, WordList.LoadList(name).Languages);
+                        if (WordList.LoadList(args[1])!= null)
+                        {
+                            name = args[1];
+                        
+                            AddWords(name, WordList.LoadList(name).Languages);
+                        }
+                        else
+                        {
+                            Console.WriteLine("That is not a valid list on your computer.");
+                        }
                         break;
                     case "-remove":
-                        var language = 0;
-                        WordList.LoadList(args[1]);
-                        for (var i = 0; i < WordList.LoadList(args[1]).Languages.Length; i++)
+                        if (WordList.LoadList(args[1])!= null)
                         {
-                            if (args[2] != WordList.LoadList(args[1]).Languages[i]) continue;
-                            language = i;
-                        }
+                            var language = 0;
+                            WordList.LoadList(args[1]);
+                            for (var i = 0; i < WordList.LoadList(args[1]).Languages.Length; i++)
+                            {
+                                if (args[2] != WordList.LoadList(args[1]).Languages[i]) continue;
+                                language = i;
+                            }
 
-                        for (var i = 3; i < args.Length; i++)
-                        {
-                            WordList.LoadList(args[1]).Remove(language, args[i]);
-                            Console.WriteLine();
-                             var wasRemoved = WordList.LoadList(args[1]).Remove(language, args[i]);
-                            Console.WriteLine(wasRemoved
-                                ? $"The {WordList.LoadList(args[1]).Languages[language]} word {args[i]} was removed"
-                                : "No Word were removed");                            
+                            for (var i = 3; i < args.Length; i++)
+                            {
+                                WordList.LoadList(args[1]).Remove(language, args[i]);
+                                Console.WriteLine();
+                                var wasRemoved = WordList.LoadList(args[1]).Remove(language, args[i]);
+                                Console.WriteLine(wasRemoved
+                                    ? $"The {WordList.LoadList(args[1]).Languages[language]} word {args[i]} was removed"
+                                    : "No Word were removed");                            
+                            }
+                            
                         }
+                        else
+                        {
+                            Console.WriteLine("That is not a valid list on your computer.");
+                        }
+                     
                         break;
                     case "-words":
-                        var sortBy = 0;
-                        languageArray = WordList.LoadList(args[1]).Languages;
-                        if (args.Length > 2)
+                        if (WordList.LoadList(args[1])!= null)
                         {
-                            for (var i = 0; i < languageArray.Length; i++)
-                                if (args.Length > 1 && args[2] == languageArray[i])
-                                    sortBy = i;
-                        }
+                            var sortBy = 0;
+                            languageArray = WordList.LoadList(args[1]).Languages;
+                            if (args.Length > 2)
+                            {
+                                for (var i = 0; i < languageArray.Length; i++)
+                                    if (args.Length > 1 && args[2] == languageArray[i])
+                                        sortBy = i;
+                            }
                         
-                        foreach (var languages in languageArray) Console.Write(languages.PadLeft(20).ToUpper());
-                        Console.WriteLine();
-                        WordList.LoadList(args[1]).List(sortBy, x =>
-                        {
-                            foreach (var t in x) Console.Write(t.PadLeft(20));
-
+                            foreach (var languages in languageArray) Console.Write(languages.PadLeft(20).ToUpper());
                             Console.WriteLine();
-                        });
+                            WordList.LoadList(args[1]).List(sortBy, x =>
+                            {
+                                foreach (var t in x) Console.Write(t.PadLeft(20));
+
+                                Console.WriteLine();
+                            });
+                        }
+                        else
+                        {
+                            Console.WriteLine("That is not a valid list on your computer.");
+                            
+                        }
+                       
 
                         break;
                     case "-count":
-                        name = args[1];
-                        Console.WriteLine($"There are {WordList.LoadList(name).Count()} words in the list");
+                        if (WordList.LoadList(args[1])!= null)
+                        {
+                            name = args[1];
+                            Console.WriteLine($"There are {WordList.LoadList(name).Count()} words in the list");
+                        }
+                        else
+                        {
+                            Console.WriteLine("That is not a valid list on your computer.");
+                        }
                         break;
                     case "-practice":
                         name = args[1];

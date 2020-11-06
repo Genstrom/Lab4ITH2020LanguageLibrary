@@ -18,7 +18,6 @@ namespace LanguageTrainerWinForms
         {
             if (!string.IsNullOrWhiteSpace(NameTextBoxInput.Text))
             {
-                
                 var name = NameTextBoxInput.Text;
                 var languageList = LanguageTextBoxInput.Lines.ToList();
                 var languageArray = languageList.Where(i => !string.IsNullOrWhiteSpace(i)).ToArray();
@@ -59,7 +58,5 @@ namespace LanguageTrainerWinForms
         {
             LanguageTextBoxInput.Text = string.Empty;
         }
-
-       
     }
 }

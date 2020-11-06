@@ -127,7 +127,6 @@ namespace LanguageTrainerWinForms
                 var selectedRows = TranslationGrid.SelectedRows;
                 var word = selectedRows[0].Cells[0].Value.ToString();
                 WordList.LoadList(FileName).Remove(0, word);
-                
             }
             foreach (DataGridViewRow item in TranslationGrid.SelectedRows) TranslationGrid.Rows.RemoveAt(item.Index);
             CountLabel.Text = $"There are {WordList.LoadList(FileName).Count()} words in the list";

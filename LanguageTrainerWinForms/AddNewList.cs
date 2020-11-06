@@ -28,8 +28,7 @@ namespace LanguageTrainerWinForms
                     var caption = "Error Detected in Input";
                     var message = "You need to add atleast 2 langauges. \nThe list will not be saved";
                     var buttons = MessageBoxButtons.OK;
-                    DialogResult result;
-                    result = MessageBox.Show(message, caption, buttons);
+                    MessageBox.Show(message, caption, buttons);
                 }
                 else
                 {
@@ -43,8 +42,7 @@ namespace LanguageTrainerWinForms
                 var caption = "Error Detected in Input";
                 var message = "You need to add a name to the list. \nThe list will not be saved";
                 var buttons = MessageBoxButtons.OK;
-                DialogResult result;
-                result = MessageBox.Show(message, caption, buttons);
+                MessageBox.Show(message, caption, buttons);
             }
         }
         private void CancelButton_Click(object sender, EventArgs e)

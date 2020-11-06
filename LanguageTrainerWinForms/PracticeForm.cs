@@ -17,11 +17,11 @@ namespace LanguageTrainerWinForms
             InitializeComponent();
         }
 
-        public string ListName { get; }
+        private string ListName { get; }
         private Word WordForPractice { get; set; }
-        public int Score { get; set; }
-        public int Tries { get; set; }
-        public int Fails { get; set; }
+        private int Score { get; set; }
+        private int Tries { get; set; }
+        private int Fails { get; set; }
 
         private Word PracticeGenerator()
         {
@@ -57,8 +57,7 @@ namespace LanguageTrainerWinForms
                 var message =
                     $"You answered wrong. Your answer was {answer} and the correct answer is {WordForPractice.Translations[WordForPractice.ToLanguage].ToLower()} ";
                 var buttons = MessageBoxButtons.OK;
-                DialogResult result;
-                result = MessageBox.Show(message, caption, buttons);
+                MessageBox.Show(message, caption, buttons);
                 Tries++;
                 Fails++;
             }
@@ -77,8 +76,7 @@ namespace LanguageTrainerWinForms
             var message =
                 $"Out of your {Tries} tries you managed to get {Score} correct answers. You failed on {Fails} words";
             var buttons = MessageBoxButtons.OK;
-            DialogResult result;
-            result = MessageBox.Show(message, caption, buttons);
+            MessageBox.Show(message, caption, buttons);
             Close();
         }
     }

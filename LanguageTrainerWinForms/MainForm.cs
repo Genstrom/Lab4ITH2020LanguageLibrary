@@ -6,12 +6,6 @@ namespace LanguageTrainerWinForms
 {
     public partial class MainForm : Form
     {
-        public MainForm(string name)
-        {
-            InitializeComponent();
-            FileName = name;
-        }
-
         public MainForm()
         {
             InitializeComponent();
@@ -20,40 +14,41 @@ namespace LanguageTrainerWinForms
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (listBox1.SelectedItem != null && WordList.LoadList(listBox1.SelectedItem.ToString()) != null)
-            {
-                TranslationGrid.Show();
-                AddButton.Show();
-                NewListButton.Show();
-                RemoveButton.Show();
-                SaveButton.Show();
-                PracticeButton.Show();
-                AddButton.Enabled = true;
-                SaveButton.Enabled = true;
-                RemoveButton.Enabled = true;
-                InformationBox.Hide();
-                FileName = listBox1.SelectedItem.ToString();
-                if (WordList.LoadList(FileName) != null)
-                {
-                    var languageArray = WordList.LoadList(FileName).Languages;
-                    var sortBy = 0;
-                    CountLabel.Text = $"There are {WordList.LoadList(FileName).Count()} words in the list";
-                    TranslationGrid.Rows.Clear();
-                    TranslationGrid.Columns.Clear();
-                    TranslationGrid.Refresh();
-                    foreach (var languages in languageArray)
-                        TranslationGrid.Columns.Add("newColumnName", languages.ToUpper());
-                    TranslationGrid.Rows.Clear();
-
-                    WordList.LoadList(FileName).List(sortBy, x => { TranslationGrid.Rows.Add(x); });
-                }
-            }
-            else
+            if (listBox1.SelectedItem == null)
             {
                 TranslationGrid.Hide();
                 InformationBox.Show();
                 InformationBox.Text = "this is not a valid list";
+                return;
             }
+
+            FileName = listBox1.SelectedItem.ToString();
+            var wordList = WordList.LoadList(FileName);
+            if (wordList == null)
+            {
+                return;
+            }
+            TranslationGrid.Show();
+            AddButton.Show();
+            NewListButton.Show();
+            RemoveButton.Show();
+            SaveButton.Show();
+            PracticeButton.Show();
+            AddButton.Enabled = true;
+            SaveButton.Enabled = true;
+            RemoveButton.Enabled = true;
+            InformationBox.Hide();
+            var languageArray = wordList.Languages;
+            var sortBy = 0;
+            CountLabel.Text = $"There are {wordList.Count()} words in the list";
+            TranslationGrid.Rows.Clear();
+            TranslationGrid.Columns.Clear();
+            TranslationGrid.Refresh();
+            foreach (var languages in languageArray)
+                TranslationGrid.Columns.Add("newColumnName", languages.ToUpper());
+            TranslationGrid.Rows.Clear();
+
+            wordList.List(sortBy, x => { TranslationGrid.Rows.Add(x); });
         }
         private void MainForm_Activated(object sender, EventArgs e)
         {
@@ -65,52 +60,55 @@ namespace LanguageTrainerWinForms
             var listsOnComputer = WordList.GetLists();
 
             foreach (var lists in listsOnComputer)
-                if (WordList.LoadList(lists) != null && WordList.LoadList(lists).Languages.Length > 1)
+            {
+                var wordList = WordList.LoadList(lists);
+                if (wordList != null && wordList.Languages.Length > 1)
+                {
                     listBox1.Items.Add(lists);
+                }
+            }
         }
 
         private void Save()
         {
-            if (listBox1.SelectedItem.ToString() != null)
+            if (listBox1.SelectedItem?.ToString() == null)
             {
-                FileName = listBox1.SelectedItem.ToString();
-                var modifiedList = new WordList(FileName, WordList.LoadList(FileName).Languages);
-                var correctLength = true;
+                return;
+            }
+            FileName = listBox1.SelectedItem.ToString();
+            var modifiedList = new WordList(FileName, WordList.LoadList(FileName).Languages);
+            var correctLength = true;
 
-                for (var i = 0; i < TranslationGrid.Rows.Count; i++)
+            for (var i = 0; i < TranslationGrid.Rows.Count; i++)
+            {
+                var words = new string[modifiedList.Languages.Length];
+                for (var j = 0; j < words.Length; j++)
                 {
-                    if (correctLength == false) break;
-
-                    var words = new string[modifiedList.Languages.Length];
-                    for (var j = 0; j < words.Length; j++)
-
-                        if (TranslationGrid.Rows[i].Cells[j].Value != null &&
-                            !string.IsNullOrWhiteSpace(TranslationGrid.Rows[i].Cells[j].Value.ToString()))
-                        {
-                            words[j] = TranslationGrid.Rows[i].Cells[j].Value.ToString().ToLower();
-                        }
-                        else
-                        {
-                            var emptySlots = TranslationGrid.Rows.Count - modifiedList.Count();
-                            for (var k = 0; k < emptySlots; k++) TranslationGrid.Rows.RemoveAt(modifiedList.Count());
-
-                            var caption = "Error Detected in Input";
-                            var message =
-                                "You did not add a word for every language. \nThe empty indexes will not be saved";
-                            var buttons = MessageBoxButtons.OK;
-                            DialogResult result;
-                            result = MessageBox.Show(message, caption, buttons);
-                            correctLength = false;
-                            break;
-                        }
-
-                    if (correctLength)
+                    if (TranslationGrid.Rows[i].Cells[j].Value != null &&
+                        !string.IsNullOrWhiteSpace(TranslationGrid.Rows[i].Cells[j].Value.ToString()))
                     {
-                        modifiedList.Add(words);
-                        modifiedList.Save();
-                        CountLabel.Text = $"There are {WordList.LoadList(FileName).Count()} words in the list";
+                        words[j] = TranslationGrid.Rows[i].Cells[j].Value.ToString().ToLower();
                     }
+                    else
+                    {
+                        var emptySlots = TranslationGrid.Rows.Count - modifiedList.Count();
+                        for (var k = 0; k < emptySlots; k++) TranslationGrid.Rows.RemoveAt(modifiedList.Count());
+
+                        var caption = "Error Detected in Input";
+                        var message =
+                            "You did not add a word for every language. \nThe empty indexes will not be saved";
+                        var buttons = MessageBoxButtons.OK;
+                        MessageBox.Show(message, caption, buttons);
+                        correctLength = false;
+                        break;
+                    }
+                    
                 }
+
+                if (!correctLength) break;
+                modifiedList.Add(words);
+                modifiedList.Save();
+                CountLabel.Text = $"There are {WordList.LoadList(FileName).Count()} words in the list";
             }
         }
 
@@ -164,27 +162,26 @@ namespace LanguageTrainerWinForms
         
         private void PracticeButton_Click(object sender, EventArgs e)
         {
-            if (listBox1.SelectedItem != null)
+            if (listBox1.SelectedItem == null)
             {
-                listBox1.Enabled = false;
-                var name = listBox1.SelectedItem.ToString();
-                if (WordList.LoadList(name).Count() != 0)
-                {
-                    var practice = new PracticeForm(name);
-                    TranslationGrid.Hide();
-                    practice.TopMost = true;
-                    practice.Show();
-                }
-                else
-                {
-                    var caption = "Error Detected";
-                    var message =
-                        "The selected list is empty, you cant practice with an empty list";
-                    var buttons = MessageBoxButtons.OK;
-                    DialogResult result;
-                    result = MessageBox.Show(message, caption, buttons);
+                return;
+            }
+            listBox1.Enabled = false;
+            var name = listBox1.SelectedItem.ToString();
+            if (WordList.LoadList(name).Count() != 0)
+            {
+                var practice = new PracticeForm(name);
+                TranslationGrid.Hide();
+                practice.TopMost = true;
+                practice.Show();
+            }
+            else
+            {
+                var caption = "Error Detected";
+                var message = "The selected list is empty, you cant practice with an empty list";
+                var buttons = MessageBoxButtons.OK;
+                MessageBox.Show(message, caption, buttons);
                     
-                }
             }
         }
     }

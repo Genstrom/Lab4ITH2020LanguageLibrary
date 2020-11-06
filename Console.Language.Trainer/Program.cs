@@ -23,7 +23,17 @@ namespace LanguageTeacher
                     NewCommand(inputArray);
                     break;
                 case "-add":
-                    AddCommand(inputArray[1]);
+                    if (inputArray.Length > 1)
+                    {
+                        AddCommand(inputArray[1]);
+                    }
+                    else
+                    {
+                        Console.WriteLine("that list does not exist");
+                        Console.WriteLine();
+                        PrintInfo();
+                    }
+
                     break;
                 case "-remove":
                     RemoveCommand(inputArray);
@@ -32,29 +42,49 @@ namespace LanguageTeacher
                     WordsCommand(inputArray);
                     break;
                 case "-count":
-                    CountCommand(inputArray[1]);
+                    if (inputArray.Length > 1)
+                    {
+                        CountCommand(inputArray[1]);
+                    }
+                    else
+                    {
+                        Console.WriteLine("that list does not exist");
+                        Console.WriteLine();
+                        PrintInfo();
+                    }
                     break;
                 case "-practice":
-                    PracticeCommand(inputArray[1]);
+                    if (inputArray.Length > 1)
+                    {
+                        PracticeCommand(inputArray[1]);
+                    }
+                    else
+                    {
+                        Console.WriteLine("that list does not exist");
+                        Console.WriteLine();
+                        PrintInfo();
+                    }
                     break;
             }
         }
 
         private static void PracticeCommand(string name)
         {
+
+
             var wordList = WordList.LoadList(name);
             if (wordList == null)
             {
                 Console.WriteLine("That is not a valid list on your computer.");
                 return;
             }
-            
+
             if (wordList.Count() == 0)
             {
                 Console.WriteLine("The selected list is empty, you cant practice with an empty list");
                 return;
             }
-            
+
             var languageArray = wordList.Languages;
             var points = 0;
             var tries = 0;
@@ -84,8 +114,8 @@ namespace LanguageTeacher
                     break;
                 }
             }
-        }
 
+        }
         private static void CountCommand(string name)
         {
             var wordList = WordList.LoadList(name);
@@ -157,8 +187,7 @@ namespace LanguageTeacher
             var language = GetLanguageIndex(args,wordList.Languages);
 
             for (var i = 3; i < args.Length; i++)
-            {
-                wordList.Remove(language, args[i]);
+            {             
                 Console.WriteLine();
                 var wasRemoved = wordList.Remove(language, args[i]);
                 Console.WriteLine(wasRemoved

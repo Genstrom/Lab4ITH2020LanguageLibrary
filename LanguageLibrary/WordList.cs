@@ -32,14 +32,7 @@ namespace LanguageLibrary
         public static WordList LoadList(string name)
         {
             Folder.CreateFolder();
-
-            if (!File.Exists(Folder.GetFilePath(name.ToLower())))
-            {
-                var file = Folder.GetFilePath(name);
-                using var fs = File.Create(file);
-                fs.Close();
-            }
-
+            if (!File.Exists(Folder.GetFilePath(name.ToLower()))) return null;
             using var sr = new StreamReader(Folder.GetFilePath(name));
             var line1 = sr.ReadLine();
             if (line1 == null) return null;

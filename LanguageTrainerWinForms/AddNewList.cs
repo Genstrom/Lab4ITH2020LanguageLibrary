@@ -52,7 +52,7 @@ namespace LanguageTrainerWinForms
 
         private void AddNewList_Load(object sender, EventArgs e)
         {
-            LanguageTextBoxInput.Text = $"Language 1{Environment.NewLine}Language2";
+            LanguageTextBoxInput.Text = $"Language 1{Environment.NewLine}Language 2{Environment.NewLine}....";
         }
 
         private void NameTextBoxInput_TextChanged(object sender, EventArgs e)

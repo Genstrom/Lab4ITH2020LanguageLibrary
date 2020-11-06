@@ -33,7 +33,6 @@ namespace LanguageTeacher
                         Console.WriteLine();
                         PrintInfo();
                     }
-
                     break;
                 case "-remove":
                     RemoveCommand(inputArray);

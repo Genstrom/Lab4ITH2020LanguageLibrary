@@ -25,7 +25,7 @@ namespace LanguageTeacher
                 {
                     case "-lists":
                         var files = WordList.GetLists();
-                        if (files != null)
+                        if (files.Length > 1)
                         {
                             foreach (var file in files)
                                 if (WordList.LoadList(file) != null)
